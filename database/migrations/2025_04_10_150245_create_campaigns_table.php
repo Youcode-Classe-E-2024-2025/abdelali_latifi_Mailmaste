@@ -6,22 +6,21 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
-    public function up(): void
+    public function up()
     {
         Schema::create('campaigns', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade'); // Association avec l'utilisateur
+            $table->foreignId('newsletter_id')->constrained()->onDelete('cascade'); // Association avec la newsletter
+            $table->enum('status', ['draft', 'sent', 'scheduled'])->default('draft');
+            $table->timestamp('scheduled_at')->nullable();
             $table->timestamps();
-        });
+        }); 
     }
-
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
+    
+    public function down()
     {
         Schema::dropIfExists('campaigns');
     }
+    
 };
