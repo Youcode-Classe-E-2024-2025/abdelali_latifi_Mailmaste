@@ -6,9 +6,9 @@ use App\Services\AuthService;
 use Illuminate\Http\Request;
 
 /**
- * @OA\Tag(
- *     name="Authentication",
- *     description="Endpoints pour l'authentification des utilisateurs"
+ * @OA\Info(
+ *     title="API Auth",
+ *     version="1.0.0"
  * )
  */
 class AuthController extends Controller
@@ -23,26 +23,26 @@ class AuthController extends Controller
     /**
      * @OA\Post(
      *     path="/api/register",
-     *     summary="Enregistrer un nouvel utilisateur",
-     *     tags={"Authentication"},
+     *     summary="Register a new user",
+     *     tags={"Auth"},
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
      *             required={"name","email","password","password_confirmation","role"},
-     *             @OA\Property(property="name", type="string", example="John Doe"),
-     *             @OA\Property(property="email", type="string", format="email", example="john@example.com"),
+     *             @OA\Property(property="name", type="string", example="Abdelali Latifi"),
+     *             @OA\Property(property="email", type="string", format="email", example="abdelali@example.com"),
      *             @OA\Property(property="password", type="string", format="password", example="password123"),
      *             @OA\Property(property="password_confirmation", type="string", format="password", example="password123"),
-     *             @OA\Property(property="role", type="string", enum={"admin", "agent", "client"}, example="client")
+     *             @OA\Property(property="role", type="string", enum={"admin","agent","client"}, example="client")
      *         )
      *     ),
      *     @OA\Response(
      *         response=201,
-     *         description="Utilisateur créé avec succès"
+     *         description="User registered successfully"
      *     ),
      *     @OA\Response(
      *         response=422,
-     *         description="Données invalides"
+     *         description="Validation error"
      *     )
      * )
      */
@@ -61,23 +61,23 @@ class AuthController extends Controller
     /**
      * @OA\Post(
      *     path="/api/login",
-     *     summary="Connexion d'un utilisateur",
-     *     tags={"Authentication"},
+     *     summary="Login a user",
+     *     tags={"Auth"},
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
      *             required={"email","password"},
-     *             @OA\Property(property="email", type="string", format="email", example="john@example.com"),
+     *             @OA\Property(property="email", type="string", format="email", example="abdelali@example.com"),
      *             @OA\Property(property="password", type="string", format="password", example="password123")
      *         )
      *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="Connexion réussie"
+     *         description="User logged in successfully"
      *     ),
      *     @OA\Response(
      *         response=401,
-     *         description="Identifiants invalides"
+     *         description="Invalid credentials"
      *     )
      * )
      */
@@ -94,12 +94,16 @@ class AuthController extends Controller
     /**
      * @OA\Post(
      *     path="/api/logout",
-     *     summary="Déconnexion de l'utilisateur authentifié",
-     *     tags={"Authentication"},
-     *     security={{"sanctum":{}}},
+     *     summary="Logout the authenticated user",
+     *     tags={"Auth"},
+     *     security={{"bearerAuth":{}}},
      *     @OA\Response(
      *         response=200,
-     *         description="Déconnexion réussie"
+     *         description="User logged out successfully"
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Unauthenticated"
      *     )
      * )
      */
